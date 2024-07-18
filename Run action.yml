@@ -1,26 +1,17 @@
 name: Run action
 
-on: 
-  push:
-  pull_request:
+on: [push]
   
 jobs:
-  validate-data:
-  permissions: 
-    contents: read
-  runs-on: ubuntu-latest
+  runs-on: [ubuntu-latest]
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout
+      - uses: actions/checkout@v2
 
-      - uses: actions/setup-node@v3
+      - name: Setup python
+      - uses: actions/setup-python@v2
         with:
-          node-version: '16'
-          cache: 'npm'
-          cache-dependency-path: script/validate-data/package-lock.json
+          python-version: "3.x"
 
-      - name: Validate workflows
-        run:
-          npm ci
-          npx ts-node-script ./index.ts
-        working-directory: ./script/validate-data
-    
+      - name: Check python version
+        run: python --version
